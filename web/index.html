@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어린 왕자 타자 연습 게임</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #sentence {
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+        #input {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>어린 왕자 타자 연습 게임</h1>
+    <div id="sentence">게임 시작 전입니다.</div>
+    <input type="text" id="input" oninput="checkInput(event)">
+    <div id="result"></div>
+
+    <script>
+        const sentences = [
+            "나는 무리 중 하나였다.",
+            "그런데 그것은 중요한 차이점이었다.",
+            "그렇지만 그것이 나에게는 특별한 무언가를 줬다.",
+            "나는 행복해지기 시작했다."
+            // 이곳에 더 많은 문장을 추가할 수 있습니다.
+        ];
+        let currentSentenceIndex = 0;
+        let startTime;
+
+        function startGame() {
+            currentSentenceIndex = 0;
+            showSentence();
+            document.getElementById('input').value = '';
+            document.getElementById('input').focus();
+            startTime = new Date().getTime();
+            document.getElementById('result').textContent = '';
+        }
+
+        function showSentence() {
+            document.getElementById('sentence').textContent = sentences[currentSentenceIndex];
+        }
+
+        function checkInput(event) {
+            const typedSentence = event.target.value.trim();
+            const currentSentence = sentences[currentSentenceIndex];
+
+            if (typedSentence === currentSentence) {
+                currentSentenceIndex++;
+                if (currentSentenceIndex < sentences.length) {
+                    showSentence();
+                    document.getElementById('input').value = '';
+                } else {
+                    const endTime = new Date().getTime();
+                    const totalTime = (endTime - startTime) / 1000;
+                    const accuracy = Math.floor((sentences.length / totalTime) * 60);
+                    document.getElementById('result').textContent = `타자 속도: ${accuracy}타/분. 다시 시작하려면 엔터 키를 누르세요.`;
+                }
+            }
+        }
+
+        document.getElementById('input').addEventListener('keyup', function(event) {
+            if (event.keyCode === 13) { // 엔터 키 눌렀을 때
+                startGame();
+            }
+        });
+
+        startGame(); // 게임 시작
+    </script>
+</body>
+</html>
